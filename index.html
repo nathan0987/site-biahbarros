@@ -1,215 +1,592 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biah Barros - Corretora de Imóveis Premium</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <!-- HEADER E NAVEGAÇÃO -->
-    <header class="header">
-        <div class="container">
-            <div class="logo-section">
-                <h1 class="logo">🏡 Biah Barros</h1>
-                <p class="creci">CRECI-RJ: 97.387</p>
-            </div>
-            <nav class="nav">
-                <a href="#inicio" class="nav-link">Início</a>
-                <a href="#imoveis" class="nav-link">Imóveis</a>
-                <a href="#sobre" class="nav-link">Sobre Mim</a>
-                <a href="#contato" class="nav-link">Contato</a>
-                <a href="login.html" class="nav-link auth-btn">Login</a>
-            </nav>
-            <button class="menu-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Biah Barros | Corretora de Imóveis</title>
+    <meta
+      name="description"
+      content="Biah Barros - Corretora de imóveis em Cabo Frio. Imóveis, terrenos, compra, venda e locação com atendimento profissional e confiança."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="script.js"></script>
+  </head>
+  <body data-page="home">
+    <header class="site-header">
+      <div class="container nav-shell">
+        <a href="index.html" class="brand" aria-label="Biah Barros home">
+          <span class="brand-mark">B</span>
+          <div>
+            <strong>Biah Barros</strong>
+            <small>Corretora de Imóveis</small>
+          </div>
+        </a>
+
+        <nav class="main-nav" aria-label="Menu principal">
+          <a href="#inicio">Início</a>
+          <a href="#imoveis">Imóveis</a>
+          <a href="#sobre">Sobre Mim</a>
+          <a href="#contato">Contato</a>
+          <a href="login.html" class="nav-login">Login</a>
+        </nav>
+
+        <button class="menu-toggle" aria-label="Abrir menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
     </header>
 
-    <!-- HERO SECTION -->
-    <section id="inicio" class="hero">
-        <div class="hero-content">
-            <h2 class="hero-title">Encontre Seu Lar Perfeito</h2>
-            <p class="hero-subtitle">Imóveis exclusivos e confiança em cada negociação. Sua busca perfeita começa aqui.</p>
-            <a href="#filtro" class="cta-button">
-                <i class="fab fa-whatsapp"></i> Falar com Biah pelo WhatsApp
-            </a>
-        </div>
-        <div class="hero-background"></div>
-    </section>
+    <main>
+      <section id="inicio" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Conexão, confiança e oportunidades</p>
+            <h1>Seu próximo imóvel começa com a decisão certa.</h1>
+            <p class="lead">
+              Descubra imóveis, casas, apartamentos e terrenos com atendimento profissional,
+              análise inteligente de valor e suporte em cada etapa da compra, venda ou locação.
+            </p>
+            <div class="hero-actions">
+              <a
+                class="btn btn-primary"
+                href="https://wa.me/5522997554735?text=Ol%C3%A1%20Biah!%20Quero%20conversar%20sobre%20im%C3%B3veis%20e%20terrenos."
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp"></i> Falar pelo WhatsApp
+              </a>
+              <a class="btn btn-secondary" href="#imoveis">Ver imóveis</a>
+            </div>
+            <ul class="hero-points">
+              <li>Compra, venda e aluguel</li>
+              <li>Terrenos e imóveis em diversos valores</li>
+              <li>Atendimento humanizado e estratégico</li>
+            </ul>
+          </div>
 
-    <!-- SEÇÃO FILTRO RÁPIDO -->
-    <section id="filtro" class="filtro-section">
+          <div class="hero-panel">
+            <div class="mini-card">
+              <span class="mini-label">Atendimento</span>
+              <strong>Especialista em imóveis e terrenos</strong>
+              <p>Fechamentos com segurança, clareza e estratégia.</p>
+            </div>
+            <div class="agent-card">
+              <img
+                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80"
+                alt="Biah Barros"
+              />
+              <div>
+                <span>Biah Barros</span>
+                <small>Corretora credenciada</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="quick-search" id="filtro">
+        <div class="container search-box">
+          <div class="section-heading left">
+            <p class="eyebrow">Busca inteligente</p>
+            <h2>O que você está procurando?</h2>
+          </div>
+
+          <div class="tab-list" role="tablist" aria-label="Filtro rápido">
+            <button class="tab active" data-target="comprar" role="tab" aria-selected="true">
+              Comprar Casa / Imóvel
+            </button>
+            <button class="tab" data-target="vender" role="tab" aria-selected="false">
+              Colocar Imóvel à Venda
+            </button>
+            <button class="tab" data-target="alugar" role="tab" aria-selected="false">
+              Alugar Imóvel
+            </button>
+            <button class="tab" data-target="avaliacao" role="tab" aria-selected="false">
+              Avaliação de Imóvel / Outros
+            </button>
+          </div>
+
+          <div class="tab-panel active" id="comprar">
+            <form class="search-form">
+              <select name="propertyType" aria-label="Tipo de imóvel">
+                <option value="">Tipo de imóvel</option>
+                <option value="Casa">Casa</option>
+                <option value="Apartamento">Apartamento</option>
+                <option value="Terreno">Terreno</option>
+                <option value="Comercial">Comercial</option>
+              </select>
+              <select name="budget" aria-label="Faixa de preço">
+                <option value="">Faixa de preço</option>
+                <option value="10000-50000">R$ 10.000 - R$ 50.000</option>
+                <option value="50000-150000">R$ 50.000 - R$ 150.000</option>
+                <option value="150000-500000">R$ 150.000 - R$ 500.000</option>
+                <option value="500000-2000000">R$ 500.000 - R$ 2.000.000</option>
+              </select>
+              <select name="location" aria-label="Bairro de interesse">
+                <option value="">Bairro de interesse</option>
+                <option value="Unamar">Unamar</option>
+                <option value="Praia do Forte">Praia do Forte</option>
+                <option value="Centro">Centro</option>
+                <option value="Peró">Peró</option>
+              </select>
+              <button type="button" class="btn btn-primary quick-send" data-message="Olá Biah! Quero encontrar imóveis para compra.">
+                Buscar Imóveis
+              </button>
+            </form>
+          </div>
+
+          <div class="tab-panel" id="vender">
+            <form class="search-form">
+              <input type="text" name="address" placeholder="Qual é o endereço do imóvel?" />
+              <select name="saleType" aria-label="Tipo do imóvel">
+                <option value="">Tipo de imóvel</option>
+                <option value="Casa">Casa</option>
+                <option value="Apartamento">Apartamento</option>
+                <option value="Terreno">Terreno</option>
+                <option value="Comercial">Comercial</option>
+              </select>
+              <button type="button" class="btn btn-primary quick-send" data-message="Olá Biah! Gostaria de colocar meu imóvel à venda.">
+                Falar com a Biah
+              </button>
+            </form>
+          </div>
+
+          <div class="tab-panel" id="alugar">
+            <form class="search-form">
+              <select name="rentalType" aria-label="Tipo de imóvel para aluguel">
+                <option value="">Tipo de imóvel</option>
+                <option value="Casa">Casa</option>
+                <option value="Apartamento">Apartamento</option>
+                <option value="Comercial">Comercial</option>
+              </select>
+              <select name="rentalBudget" aria-label="Faixa de aluguel">
+                <option value="">Faixa de aluguel</option>
+                <option value="500-1500">R$ 500 - R$ 1.500</option>
+                <option value="1500-3000">R$ 1.500 - R$ 3.000</option>
+                <option value="3000-7000">R$ 3.000 - R$ 7.000</option>
+                <option value="7000-20000">Acima de R$ 7.000</option>
+              </select>
+              <button type="button" class="btn btn-primary quick-send" data-message="Olá Biah! Quero saber opções para alugar imóveis.">
+                Consultar Disponibilidades
+              </button>
+            </form>
+          </div>
+
+          <div class="tab-panel" id="avaliacao">
+            <form class="search-form">
+              <input type="text" name="evaluation" placeholder="Descreva sua necessidade ou imóvel" />
+              <button type="button" class="btn btn-primary quick-send" data-message="Olá Biah! Quero solicitar avaliação ou consultoria imobiliária.">
+                Agendar Consultoria
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section id="sobre" class="about-section">
+        <div class="container about-grid">
+          <div class="about-copy">
+            <p class="eyebrow">Sobre mim</p>
+            <h2>Atendimento profissional para encontrar o lar certo e o melhor investimento.</h2>
+            <p>
+              Sou Biah Barros, corretora de imóveis comprometida em conectar pessoas aos imóveis ideais,
+              com atenção, clareza e estratégia. Trabalho com casas, apartamentos, terrenos e imóveis comerciais,
+              sempre respeitando o perfil, o valor e os objetivos de cada cliente.
+            </p>
+            <p>
+              A minha missão é tornar a experiência imobiliária simples, segura e eficiente, ajudando você a
+              decidir com confiança, seja para comprar, vender, alugar ou avaliar um imóvel.
+            </p>
+            <div class="about-list">
+              <div>
+                <strong>📍 Localização</strong>
+                <span>Unamar, Cabo Frio - RJ</span>
+              </div>
+              <div>
+                <strong>📋 CRECI-RJ</strong>
+                <span>97.387</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-photo">
+            <img
+              src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=900&q=80"
+              alt="Corretora Biah Barros"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section id="imoveis" class="feature-section">
         <div class="container">
-            <h2 class="section-title">O que você está procurando?</h2>
-            <div class="filtro-tabs">
-                <button class="filtro-tab active" data-filtro="comprar">
-                    <i class="fas fa-home"></i> Comprar Casa / Imóvel
-                </button>
-                <button class="filtro-tab" data-filtro="vender">
-                    <i class="fas fa-tag"></i> Colocar à Venda
-                </button>
-                <button class="filtro-tab" data-filtro="alugar">
-                    <i class="fas fa-key"></i> Alugar Imóvel
-                </button>
-                <button class="filtro-tab" data-filtro="avaliacao">
-                    <i class="fas fa-chart-line"></i> Avaliação / Outros
-                </button>
-            </div>
+          <div class="section-heading center">
+            <p class="eyebrow">Imóveis em destaque</p>
+            <h2>Explore oportunidades com valor, localização e estilo.</h2>
+          </div>
 
-            <div class="filtro-content active" id="filtro-comprar">
-                <div class="filtro-form">
-                    <select class="filtro-input">
-                        <option>Tipo de Imóvel</option>
-                        <option>Casa</option>
-                        <option>Apartamento</option>
-                        <option>Terreno</option>
-                        <option>Comercial</option>
-                    </select>
-                    <select class="filtro-input">
-                        <option>Faixa de Preço</option>
-                        <option>R$ 10.000 - R$ 50.000</option>
-                        <option>R$ 50.000 - R$ 150.000</option>
-                        <option>R$ 150.000 - R$ 500.000</option>
-                        <option>R$ 500.000 - R$ 2.000.000</option>
-                    </select>
-                    <select class="filtro-input">
-                        <option>Bairro de Interesse</option>
-                        <option>Unamar</option>
-                        <option>Praia do Forte</option>
-                        <option>Centro</option>
-                        <option>Peró</option>
-                    </select>
-                    <a href="https://wa.me/5522997554735?text=Olá%20Biah!%20Gostaria%20de%20informações%20sobre%20imóveis%20para%20compra" 
-                       class="filtro-btn" target="_blank">
-                        <i class="fab fa-whatsapp"></i> Buscar Imóveis
-                    </a>
-                </div>
-            </div>
+          <div class="property-grid" id="featuredProperties"></div>
 
-            <div class="filtro-content" id="filtro-vender">
-                <div class="filtro-form">
-                    <input type="text" class="filtro-input" placeholder="Qual é o endereço do imóvel?">
-                    <select class="filtro-input">
-                        <option>Tipo de Imóvel</option>
-                        <option>Casa</option>
-                        <option>Apartamento</option>
-                        <option>Terreno</option>
-                    </select>
-                    <a href="https://wa.me/5522997554735?text=Olá%20Biah!%20Gostaria%20de%20colocar%20meu%20imóvel%20à%20venda" 
-                       class="filtro-btn" target="_blank">
-                        <i class="fab fa-whatsapp"></i> Falar com a Biah
-                    </a>
-                </div>
-            </div>
-
-            <div class="filtro-content" id="filtro-alugar">
-                <div class="filtro-form">
-                    <select class="filtro-input">
-                        <option>Tipo de Imóvel</option>
-                        <option>Casa</option>
-                        <option>Apartamento</option>
-                        <option>Comercial</option>
-                    </select>
-                    <select class="filtro-input">
-                        <option>Faixa de Aluguel</option>
-                        <option>R$ 500 - R$ 1.500</option>
-                        <option>R$ 1.500 - R$ 3.000</option>
-                        <option>R$ 3.000 - R$ 7.000</option>
-                        <option>Acima de R$ 7.000</option>
-                    </select>
-                    <a href="https://wa.me/5522997554735?text=Olá%20Biah!%20Gostaria%20de%20informações%20sobre%20imóveis%20para%20aluguel" 
-                       class="filtro-btn" target="_blank">
-                        <i class="fab fa-whatsapp"></i> Consultar Disponibilidades
-                    </a>
-                </div>
-            </div>
-
-            <div class="filtro-content" id="filtro-avaliacao">
-                <div class="filtro-form">
-                    <input type="text" class="filtro-input" placeholder="Descreva sua necessidade">
-                    <a href="https://wa.me/5522997554735?text=Olá%20Biah!%20Gostaria%20de%20solicitar%20uma%20avaliação%20ou%20consultoria" 
-                       class="filtro-btn" target="_blank">
-                        <i class="fab fa-whatsapp"></i> Agendar Consultoria
-                    </a>
-                </div>
-            </div>
+          <div class="more-link-wrap">
+            <a href="login.html" class="btn btn-secondary">Entrar para ver mais</a>
+          </div>
         </div>
-    </section>
+      </section>
+    </main>
 
-    <!-- SEÇÃO SOBRE MIM -->
-    <section id="sobre" class="about">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2 class="section-title">Sobre Mim</h2>
-                    <p>Olá! Sou Biah Barros, corretora de imóveis especializada em encontrar os melhores lares e investimentos para meus clientes. Com experiência e dedicação, trabalho para conectar você ao imóvel perfeito, independentemente do seu orçamento ou necessidade.</p>
-                    <p>Oferecemos uma ampla gama de opções: casas aconchegantes, apartamentos modernos, terrenos com potencial, além de soluções comerciais. Nosso foco é compreender suas necessidades e entregar resultados com transparência e profissionalismo.</p>
-                    <p><strong>📍 Localização:</strong> Unamar, Cabo Frio - RJ</p>
-                    <p><strong>📋 CRECI-RJ:</strong> 97.387</p>
-                </div>
-                <div class="about-image">
-                    <div class="placeholder-image">
-                        <i class="fas fa-image"></i>
-                        <p>Foto da Biah Barros</p>
-                    </div>
-                </div>
+    <footer id="contato" class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <a href="index.html" class="brand footer-brand">
+            <span class="brand-mark">B</span>
+            <div>
+              <strong>Biah Barros</strong>
+              <small>Corretora de Imóveis</small>
             </div>
+          </a>
+          <p class="footer-copy">
+            Atendimento humanizado para compra, venda, locação e avaliação de imóveis e terrenos.
+          </p>
         </div>
-    </section>
 
-    <!-- SEÇÃO IMÓVEIS EM DESTAQUE -->
-    <section id="imoveis" class="properties">
-        <div class="container">
-            <h2 class="section-title">Imóveis em Destaque</h2>
-            <div class="properties-grid" id="propertiesGrid">
-                <!-- Imóveis serão carregados via JavaScript -->
-                <p class="loading-text">Carregando imóveis...</p>
-            </div>
-            <div class="view-all">
-                <a href="imoveis.html" class="view-all-btn">Ver Todos os Imóveis</a>
-            </div>
+        <div>
+          <h3>Contato</h3>
+          <ul class="footer-list">
+            <li><a href="https://wa.me/5522997554735" target="_blank" rel="noopener noreferrer">WhatsApp: +55 22 99755-4735</a></li>
+            <li><a href="mailto:Corretorabiahbarros@gmail.com">E-mail: Corretorabiahbarros@gmail.com</a></li>
+            <li>📍 Unamar - Cabo Frio RJ</li>
+          </ul>
         </div>
-    </section>
 
-    <!-- SEÇÃO CONTATO / RODAPÉ -->
-    <footer id="contato" class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Biah Barros</h3>
-                    <p>Corretora de Imóveis Premium</p>
-                    <p>CRECI-RJ: 97.387</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Contato</h3>
-                    <p><strong>WhatsApp/Telefone:</strong> <a href="https://wa.me/5522997554735" target="_blank">+55 22 99755-4735</a></p>
-                    <p><strong>E-mail:</strong> <a href="mailto:Corretorabiahbarros@gmail.com">Corretorabiahbarros@gmail.com</a></p>
-                    <p><strong>Localização:</strong> Unamar, Cabo Frio - RJ</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Redes Sociais</h3>
-                    <div class="social-links">
-                        <a href="https://instagram.com/corretorabiahbarros" target="_blank" title="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://facebook.com/profile.php?id=61560522832267" target="_blank" title="Facebook">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                        <a href="https://tiktok.com/@corretorabiahbarros" target="_blank" title="TikTok">
-                            <i class="fab fa-tiktok"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Biah Barros. Todos os direitos reservados. | CRECI-RJ: 97.387</p>
-            </div>
+        <div>
+          <h3>Redes sociais</h3>
+          <ul class="footer-list social-list">
+            <li><a href="https://instagram.com/corretorabiahbarros" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="https://facebook.com/profile.php?id=61560522832267" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+            <li><a href="https://tiktok.com/@corretorabiahbarros" target="_blank" rel="noopener noreferrer">TikTok</a></li>
+          </ul>
         </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2024 Biah Barros. Todos os direitos reservados.</p>
+      </div>
     </footer>
 
-    <script src="script.js"></script>
-</body>
+    <div id="toast" class="toast" aria-live="polite"></div>
+  </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

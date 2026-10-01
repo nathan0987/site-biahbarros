@@ -1,0 +1,820 @@
+const STORAGE_KEY = "biahbarros_site_state_v1";
+const SESSION_KEY = "biahbarros_session_v1";
+
+const adminUser = {
+  id: "admin-biah",
+  username: "biahbarros",
+  password: "235689bia",
+  fullName: "Biah Barros",
+  email: "corretorabiahbarros@gmail.com",
+  role: "admin",
+  savedProperties: [],
+};
+
+const defaultState = {
+  users: [adminUser],
+  properties: [
+    {
+      id: "prop-001",
+      name: "Casa com Jardim em Unamar",
+      type: "Casa",
+      category: "imovel",
+      price: 560000,
+      location: "Unamar, Cabo Frio - RJ",
+      bedrooms: 3,
+      bathrooms: 2,
+      area: 142,
+      image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+      description: "Casa moderna com suite, jardim, área gourmet e excelente iluminação natural.",
+      status: "disponivel",
+      featured: true,
+    },
+    {
+      id: "prop-002",
+      name: "Apartamento com Vista Mar",
+      type: "Apartamento",
+      category: "imovel",
+      price: 820000,
+      location: "Praia do Forte, Cabo Frio - RJ",
+      bedrooms: 2,
+      bathrooms: 2,
+      area: 96,
+      image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80",
+      description: "Apartamento com varanda, vista privilegiada e excelente estrutura para morar ou investir.",
+      status: "disponivel",
+      featured: true,
+    },
+    {
+      id: "prop-003",
+      name: "Terreno Privilegiado",
+      type: "Terreno",
+      category: "terreno",
+      price: 180000,
+      location: "Peró, Cabo Frio - RJ",
+      bedrooms: 0,
+      bathrooms: 0,
+      area: 420,
+      image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80",
+      description: "Terreno amplo com boa topografia, ideal para construir sua casa dos sonhos.",
+      status: "disponivel",
+      featured: true,
+    },
+    {
+      id: "prop-004",
+      name: "Casa de Alto Potencial",
+      type: "Casa",
+      category: "imovel",
+      price: 350000,
+      location: "Centro, Cabo Frio - RJ",
+      bedrooms: 3,
+      bathrooms: 2,
+      area: 172,
+      image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1200&q=80",
+      description: "Casa com potencial de valorização, ótima localização e área generosa.",
+      status: "disponivel",
+      featured: false,
+    },
+    {
+      id: "prop-005",
+      name: "Apartamento Compacto em Aluguel",
+      type: "Apartamento",
+      category: "imovel",
+      price: 2100000,
+      location: "Centro, Cabo Frio - RJ",
+      bedrooms: 1,
+      bathrooms: 1,
+      area: 52,
+      image: "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80",
+      description: "Apartamento funcional para quem busca praticidade, conforto e boa localização.",
+      status: "disponivel",
+      featured: false,
+    },
+    {
+      id: "prop-006",
+      name: "Lote em Área Nobre",
+      type: "Terreno",
+      category: "terreno",
+      price: 95000,
+      location: "Praia do Forte, Cabo Frio - RJ",
+      bedrooms: 0,
+      bathrooms: 0,
+      area: 310,
+      image: "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80",
+      description: "Lote estratégico para construção residencial em área valorizada.",
+      status: "disponivel",
+      featured: false,
+    },
+  ],
+};
+
+function getState() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+
+  if (!saved) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultState));
+    return JSON.parse(JSON.stringify(defaultState));
+  }
+
+  try {
+    return JSON.parse(saved);
+  } catch {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultState));
+    return JSON.parse(JSON.stringify(defaultState));
+  }
+}
+
+function saveState(state) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function getCurrentSession() {
+  const raw = localStorage.getItem(SESSION_KEY);
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function setCurrentSession(user) {
+  localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+}
+
+function clearSession() {
+  localStorage.removeItem(SESSION_KEY);
+}
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  if (!toast) return;
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
+
+function formatCurrency(value) {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+function ensurePriceIncluded() {
+  const state = getState();
+  state.properties.forEach((property) => {
+    if (!property.price) property.price = 10000;
+    if (!property.status) property.status = "disponivel";
+  });
+  saveState(state);
+}
+
+function getPropertyById(id) {
+  const state = getState();
+  return state.properties.find((property) => property.id === id) || null;
+}
+
+function syncSessionToUser() {
+  const session = getCurrentSession();
+  if (!session) return null;
+
+  const state = getState();
+  const user = state.users.find((item) => item.id === session.id);
+
+  if (!user) {
+    clearSession();
+    return null;
+  }
+
+  const sessionData = {
+    ...session,
+    ...user,
+  };
+
+  setCurrentSession(sessionData);
+  return sessionData;
+}
+
+function registerClient(fullName, username, email, password) {
+  const state = getState();
+
+  const existing = state.users.find(
+    (user) => user.username.toLowerCase() === username.toLowerCase() || user.email?.toLowerCase() === email.toLowerCase()
+  );
+
+  if (existing) {
+    showToast("Esse usuário ou e-mail já existe.");
+    return false;
+  }
+
+  const newUser = {
+    id: `user-${Date.now()}`,
+    username,
+    email,
+    fullName,
+    password,
+    role: "client",
+    savedProperties: [],
+  };
+
+  state.users.push(newUser);
+  saveState(state);
+  setCurrentSession(newUser);
+  return newUser;
+}
+
+function loginUser(username, password) {
+  const state = getState();
+  const user = state.users.find(
+    (item) => item.username.toLowerCase() === username.toLowerCase() && item.password === password
+  );
+
+  if (!user) {
+    return false;
+  }
+
+  setCurrentSession(user);
+  return user;
+}
+
+function logoutUser() {
+  clearSession();
+  window.location.href = "login.html";
+}
+
+function getSavedPropertyIdsForCurrentUser() {
+  const session = getCurrentSession();
+  if (!session) return [];
+
+  const state = getState();
+  const user = state.users.find((item) => item.id === session.id);
+  return user?.savedProperties || [];
+}
+
+function updateCurrentUserSavedProperties(propertyIds) {
+  const state = getState();
+  const session = getCurrentSession();
+
+  if (!session) return;
+
+  const userIndex = state.users.findIndex((item) => item.id === session.id);
+  if (userIndex === -1) return;
+
+  state.users[userIndex].savedProperties = propertyIds;
+  saveState(state);
+
+  const updated = { ...session, ...state.users[userIndex] };
+  setCurrentSession(updated);
+}
+
+function savePropertyToProfile(propertyId) {
+  const session = getCurrentSession();
+  if (!session) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  if (session.role !== "client") {
+    showToast("Apenas clientes podem salvar imóveis no perfil.");
+    return;
+  }
+
+  const state = getState();
+  const user = state.users.find((item) => item.id === session.id);
+  if (!user) return;
+
+  if (!Array.isArray(user.savedProperties)) user.savedProperties = [];
+
+  if (user.savedProperties.includes(propertyId)) {
+    showToast("Este imóvel já está salvo no seu perfil.");
+    return;
+  }
+
+  user.savedProperties.push(propertyId);
+  saveState(state);
+  setCurrentSession({ ...session, ...user });
+  showToast("Imóvel salvo no seu perfil.");
+
+  if (window.location.pathname.includes("profile.html")) {
+    renderProfile();
+  }
+}
+
+function removeSavedProperty(propertyId) {
+  const session = getCurrentSession();
+  if (!session) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const state = getState();
+  const user = state.users.find((item) => item.id === session.id);
+  if (!user) return;
+
+  user.savedProperties = (user.savedProperties || []).filter((id) => id !== propertyId);
+  saveState(state);
+  setCurrentSession({ ...session, ...user });
+
+  const property = getPropertyById(propertyId);
+  if (property && property.status === "vendido") {
+    showToast("Este imóvel foi vendido e foi removido do seu perfil.");
+  } else {
+    showToast("Imóvel removido do seu perfil.");
+  }
+
+  if (window.location.pathname.includes("profile.html")) {
+    renderProfile();
+  }
+}
+
+function markPropertyAsSold(propertyId) {
+  const state = getState();
+  const property = state.properties.find((item) => item.id === propertyId);
+
+  if (!property) return;
+
+  property.status = "vendido";
+  state.users.forEach((user) => {
+    if (user.role === "client") {
+      user.savedProperties = (user.savedProperties || []).filter((id) => id !== propertyId);
+    }
+  });
+
+  saveState(state);
+  showToast("Imóvel marcado como vendido e removido do perfil dos clientes.");
+
+  if (window.location.pathname.includes("dashboard.html")) {
+    renderDashboard();
+  }
+
+  if (window.location.pathname.includes("index.html")) {
+    renderFeaturedProperties();
+  }
+}
+
+function addProperty(propertyData) {
+  const state = getState();
+
+  const newProperty = {
+    id: `prop-${Date.now()}`,
+    ...propertyData,
+    status: propertyData.status || "disponivel",
+    price: Number(propertyData.price),
+    bedrooms: Number(propertyData.bedrooms || 0),
+    bathrooms: Number(propertyData.bathrooms || 0),
+    area: Number(propertyData.area || 0),
+    featured: false,
+  };
+
+  state.properties.unshift(newProperty);
+  saveState(state);
+  showToast("Imóvel adicionado com sucesso.");
+  return newProperty;
+}
+
+function renderFeaturedProperties() {
+  const container = document.getElementById("featuredProperties");
+  if (!container) return;
+
+  const state = getState();
+  const properties = state.properties.filter((item) => item.status !== "vendido").slice(0, 6);
+
+  if (!properties.length) {
+    container.innerHTML = '<div class="empty-state">Nenhum imóvel disponível no momento.</div>';
+    return;
+  }
+
+  container.innerHTML = properties
+    .map((property) => {
+      const session = getCurrentSession();
+      const isSaved = session && session.role === "client" && getSavedPropertyIdsForCurrentUser().includes(property.id);
+
+      return `
+        <article class="property-card">
+          <div class="property-image">
+            <img src="${property.image}" alt="${property.name}" />
+            <span class="property-badge">${property.category === "terreno" ? "Terreno" : property.type}</span>
+          </div>
+          <div class="property-content">
+            <div class="property-header">
+              <span class="property-name">${property.name}</span>
+              <span class="property-price">${formatCurrency(property.price)}</span>
+            </div>
+
+            <div class="property-meta">
+              <span><i class="fa-solid fa-bed"></i> ${property.bedrooms || 0} quarto(s)</span>
+              <span><i class="fa-solid fa-bath"></i> ${property.bathrooms || 0} banh.</span>
+              <span><i class="fa-solid fa-ruler-combined"></i> ${property.area || 0} m²</span>
+            </div>
+
+            <div class="property-location">
+              <i class="fa-solid fa-location-dot"></i> ${property.location}
+            </div>
+
+            <div class="property-actions">
+              <button class="btn card-secondary" type="button" data-save-property="${property.id}">
+                ${isSaved ? "Salvo" : "Salvar"}
+              </button>
+              <a class="btn btn-primary" href="https://wa.me/5522997554735?text=${encodeURIComponent(`Olá Biah! Queria saber mais sobre ${property.name}.`) }" target="_blank">WhatsApp</a>
+            </div>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+
+  const saveButtons = document.querySelectorAll("[data-save-property]");
+  saveButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      savePropertyToProfile(button.dataset.saveProperty);
+    });
+  });
+}
+
+function renderDashboard() {
+  const list = document.getElementById("adminPropertiesList");
+  if (!list) return;
+
+  const state = getState();
+  const properties = state.properties;
+
+  list.innerHTML = properties.length
+    ? properties
+        .map(
+          (property) => `
+            <div class="list-item">
+              <div class="list-item-top">
+                <h4>${property.name}</h4>
+                <span class="badge ${property.status === "vendido" ? "sold" : ""}">${property.status === "vendido" ? "Vendido" : "Disponível"}</span>
+              </div>
+              <small>${property.type} • ${property.location} • ${formatCurrency(property.price)}</small>
+              <p>${property.description}</p>
+              <div class="list-item-actions">
+                <button type="button" data-sold-id="${property.id}" class="danger">Marcar como vendido</button>
+              </div>
+            </div>
+          `
+        )
+        .join("")
+    : '<div class="empty-state">Nenhum imóvel cadastrado.</div>';
+
+  document.querySelectorAll("[data-sold-id]").forEach((button) => {
+    button.addEventListener("click", () => {
+      markPropertyAsSold(button.dataset.soldId);
+    });
+  });
+}
+
+function renderProfile() {
+  const profileList = document.getElementById("profileFavorites");
+  if (!profileList) return;
+
+  const session = getCurrentSession();
+  if (!session) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const state = getState();
+  const user = state.users.find((item) => item.id === session.id);
+  if (!user) {
+    clearSession();
+    window.location.href = "login.html";
+    return;
+  }
+
+  const savedIds = user.savedProperties || [];
+  const savedProperties = state.properties.filter(
+    (property) => savedIds.includes(property.id) && property.status !== "vendido"
+  );
+
+  const userName = document.getElementById("profileUserName");
+  const userData = document.getElementById("profileUserData");
+  if (userName) userName.textContent = user.fullName || user.username;
+  if (userData) userData.textContent = `${user.username} • ${user.email}`;
+
+  if (!savedProperties.length) {
+    profileList.innerHTML = '<div class="empty-state">Você ainda não salvou imóveis. Explore o site e escolha os melhores.</div>';
+    return;
+  }
+
+  profileList.innerHTML = savedProperties
+    .map(
+      (property) => `
+        <article class="favorite-card">
+          <img src="${property.image}" alt="${property.name}" />
+          <div class="favorite-card-body">
+            <div class="favorite-card-head">
+              <h4>${property.name}</h4>
+              <span class="badge">${property.type}</span>
+            </div>
+            <p>${property.location}</p>
+            <small>${formatCurrency(property.price)}</small>
+            <div class="list-item-actions" style="justify-content:flex-start; margin-top: 12px;">
+              <button type="button" data-remove-saved="${property.id}">Remover</button>
+            </div>
+          </div>
+        </article>
+      `
+    )
+    .join("");
+
+  document.querySelectorAll("[data-remove-saved]").forEach((button) => {
+    button.addEventListener("click", () => {
+      removeSavedProperty(button.dataset.removeSaved);
+    });
+  });
+}
+
+function handleAuthForms() {
+  const loginForm = document.getElementById("loginForm");
+  const registerForm = document.getElementById("registerForm");
+  const switchButtons = document.querySelectorAll(".auth-switch button");
+
+  if (switchButtons.length) {
+    switchButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const target = button.dataset.tab;
+        switchButtons.forEach((item) => item.classList.toggle("active", item === button));
+
+        const loginPanel = document.getElementById("loginTab");
+        const registerPanel = document.getElementById("registerTab");
+        if (loginPanel && registerPanel) {
+          loginPanel.hidden = target !== "login";
+          registerPanel.hidden = target !== "register";
+        }
+      });
+    });
+  }
+
+  loginForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const username = document.getElementById("loginUsername")?.value.trim();
+    const password = document.getElementById("loginPassword")?.value.trim();
+
+    if (!username || !password) {
+      showToast("Preencha usuário e senha.");
+      return;
+    }
+
+    const user = loginUser(username, password);
+    if (!user) {
+      showToast("Credenciais inválidas.");
+      return;
+    }
+
+    showToast("Login realizado com sucesso!");
+    window.location.href = user.role === "admin" ? "dashboard.html" : "profile.html";
+  });
+
+  registerForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const fullName = document.getElementById("registerName")?.value.trim();
+    const username = document.getElementById("registerUsername")?.value.trim();
+    const email = document.getElementById("registerEmail")?.value.trim();
+    const password = document.getElementById("registerPassword")?.value.trim();
+
+    if (!fullName || !username || !email || !password) {
+      showToast("Preencha todos os campos do cadastro.");
+      return;
+    }
+
+    const user = registerClient(fullName, username, email, password);
+    if (!user) {
+      showToast("Não foi possível concluir o cadastro.");
+      return;
+    }
+
+    showToast("Cadastro realizado com sucesso!");
+    window.location.href = "profile.html";
+  });
+}
+
+function handleDashboardForm() {
+  const form = document.getElementById("propertyForm");
+  if (!form) return;
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(form);
+    const payload = Object.fromEntries(formData.entries());
+
+    if (!payload.name || !payload.type || !payload.location || !payload.price) {
+      showToast("Preencha nome, tipo, localização e preço.");
+      return;
+    }
+
+    addProperty(payload);
+    form.reset();
+    renderDashboard();
+  });
+}
+
+function handleHomePage() {
+  const menu = document.querySelector(".main-nav");
+  const toggle = document.querySelector(".menu-toggle");
+
+  if (toggle && menu) {
+    toggle.addEventListener("click", () => {
+      menu.classList.toggle("open");
+    });
+  }
+
+  document.querySelectorAll(".tab").forEach((button) => {
+    button.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach((item) => {
+        item.classList.toggle("active", item === button);
+        item.setAttribute("aria-selected", String(item === button));
+      });
+
+      document.querySelectorAll(".tab-panel").forEach((panel) => {
+        panel.classList.toggle("active", panel.id === button.dataset.target);
+      });
+    });
+  });
+
+  document.querySelectorAll(".quick-send").forEach((button) => {
+    button.addEventListener("click", () => {
+      const message = button.dataset.message || "Olá Biah! Quero falar sobre imóveis.";
+      window.open(`https://wa.me/5522997554735?text=${encodeURIComponent(message)}`, "_blank");
+    });
+  });
+
+  renderFeaturedProperties();
+}
+
+function handleAdminAccess() {
+  const session = getCurrentSession();
+  const isAdminPage = window.location.pathname.includes("dashboard.html");
+
+  if (isAdminPage && (!session || session.role !== "admin")) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  if (!isAdminPage && session && session.role === "admin") {
+    const adminLink = document.querySelector(".nav-login");
+    if (adminLink) adminLink.textContent = "Painel";
+    adminLink?.setAttribute("href", "dashboard.html");
+  }
+}
+
+function handleClientAccess() {
+  const session = getCurrentSession();
+  const isClientPage = window.location.pathname.includes("profile.html");
+
+  if (isClientPage && (!session || session.role !== "client")) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  if (!isClientPage && session && session.role === "client") {
+    const navLogin = document.querySelector(".nav-login");
+    if (navLogin) {
+      navLogin.textContent = "Perfil";
+      navLogin.setAttribute("href", "profile.html");
+    }
+  }
+}
+
+function handleGlobalActions() {
+  const logoutButton = document.getElementById("logoutButton");
+  logoutButton?.addEventListener("click", (event) => {
+    event.preventDefault();
+    logoutUser();
+  });
+}
+
+function init() {
+  ensurePriceIncluded();
+  handleAdminAccess();
+  handleClientAccess();
+  handleGlobalActions();
+
+  if (document.body.dataset.page === "home") {
+    handleHomePage();
+  }
+
+  if (document.body.dataset.page === "auth") {
+    handleAuthForms();
+  }
+
+  if (document.body.dataset.page === "dashboard") {
+    renderDashboard();
+    handleDashboardForm();
+  }
+
+  if (document.body.dataset.page === "profile") {
+    renderProfile();
+  }
+}
+
+document.addEventListener("DOMContentLoaded", init);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"path":"script.js"},{
